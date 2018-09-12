@@ -9,4 +9,4 @@
 crash.log
 
 # AWS credentials
-/aws.tfvars
+/aws.auto.tfvars
