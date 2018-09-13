@@ -1,6 +1,10 @@
-variable "public_sg" {}
+variable "openshift_ssh_sg" {}
 
-variable "os_sg" {}
+variable "openshift_master_sg" {}
+
+variable "openshift_node_sg" {}
+
+variable "openshift_infra_sg" {}
 
 variable "public_subnet_ids" {
   type = "list"

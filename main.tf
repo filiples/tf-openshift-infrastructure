@@ -20,8 +20,10 @@ module "networking" {
 module "compute" {
   source = "./compute"
   public_subnet_ids = "${module.networking.public_subnets}"
-  public_sg = "${module.networking.public_sg}"
-  os_sg = "${module.networking.os_sg}"
+  openshift_ssh_sg = "${module.networking.openshift_ssh_sg}"
+  openshift_master_sg = "${module.networking.openshift_master_sg}"
+  openshift_node_sg = "${module.networking.openshift_node_sg}"
+  openshift_infra_sg = "${module.networking.openshift_infra_sg}"
   instance_count_master = "${var.instance_count_master}"
   instance_type_master = "${var.instance_type_master}"
   instance_count_infra_node = "${var.instance_count_infra_node}"

@@ -35,16 +35,6 @@ resource "aws_route_table_association" "openshift_tf_public_assoc" {
   route_table_id = "${aws_route_table.openshift_tf_public_rt.id}"
 }
 
-# Private route table
-
-resource "aws_default_route_table" "openshift_tf_private_rt" {
-  default_route_table_id = "${aws_vpc.openshift_tf_vpc.default_route_table_id}"
-
-  tags {
-    Name = "openshift_tf_private_rt"
-  }
-}
-
 # Private subnet
 
 resource "aws_subnet" "openshift_tf_private_subnet" {
@@ -59,10 +49,26 @@ resource "aws_subnet" "openshift_tf_private_subnet" {
   }
 }
 
+# Private route table
+
+resource "aws_route_table" "openshift_tf_private_rt" {
+  count = "${aws_subnet.openshift_tf_private_subnet.count}"
+  vpc_id = "${aws_vpc.openshift_tf_vpc.id}"
+
+  route {
+      cidr_block = "0.0.0.0/0"
+      nat_gateway_id = "${aws_nat_gateway.openshift_tf_nat_gateway.*.id[count.index]}"
+  }
+
+  tags {
+    Name = "openshift_tf_private_rt-${count.index}"
+  }
+}
+
 # Private route table associtation
 
 resource "aws_route_table_association" "openshift_tf_private_assoc" {
   count          = "${aws_subnet.openshift_tf_private_subnet.count}"
   subnet_id      = "${aws_subnet.openshift_tf_private_subnet.*.id[count.index]}"
-  route_table_id = "${aws_default_route_table.openshift_tf_private_rt.id}"
+  route_table_id = "${aws_route_table.openshift_tf_private_rt.*.id[count.index]}"
 }

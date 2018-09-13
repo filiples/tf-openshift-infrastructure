@@ -17,14 +17,14 @@ accessip = "0.0.0.0/0"
 
 # Using t2.micro instances until terraform files complete
 
-instance_count_master = 1
+instance_count_master = 3
 
 instance_type_master = "t2.micro"
 
-instance_count_infra_node = 1
+instance_count_infra_node = 2
 
 instance_type_infra_node = "t2.micro"
 
-instance_count_app_node = 1
+instance_count_app_node = 2
 
 instance_type_app_node = "t2.micro"
