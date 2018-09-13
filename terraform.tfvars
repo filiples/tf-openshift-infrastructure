@@ -32,3 +32,5 @@ instance_type_app_node = "t2.micro"
 master_root_block_device_size = 45
 
 node_root_block_device_size = 20
+
+instance_key_name = "filip-tf-oregon"

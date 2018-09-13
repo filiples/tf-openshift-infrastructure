@@ -21,3 +21,7 @@ output "openshift_infra_sg" {
 output "openshift_ssh_sg" {
   value = "${aws_security_group.openshift_ssh_sg.id}"
 }
+
+output "public_web_sg" {
+  value = "${aws_security_group.public_web_sg.id}"
+}

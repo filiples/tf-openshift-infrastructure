@@ -16,6 +16,45 @@ resource "aws_security_group" "openshift_ssh_sg" {
   }
 }
 
+# Public web security group
+
+resource "aws_security_group" "public_web_sg" {
+  name = "public_web_sg"
+  vpc_id = "${aws_vpc.openshift_tf_vpc.id}"
+
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["${var.accessip}"]
+  }
+
+  ingress {
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["${var.accessip}"]
+  }
+
+  egress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["${var.accessip}"]
+  }
+
+  egress {
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["${var.accessip}"]
+  }
+
+  tags {
+    Name = "Public web"
+  }
+}
+
 # Openshift master security group
 
 resource "aws_security_group" "openshift_master_sg" {

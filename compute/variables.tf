@@ -1,5 +1,7 @@
 variable "openshift_ssh_sg" {}
 
+variable "public_web_sg" {}
+
 variable "openshift_master_sg" {}
 
 variable "openshift_node_sg" {}
@@ -25,3 +27,5 @@ variable "instance_type_app_node" {}
 variable "master_root_block_device_size" {}
 
 variable "node_root_block_device_size" {}
+
+variable "instance_key_name" {}

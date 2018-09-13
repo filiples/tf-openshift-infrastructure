@@ -18,6 +18,10 @@ data "aws_ami" "server_ami" {
   }
 }
 
+data "template_file" "user_data" {
+    template = "${file("${path.module}/install-ansible.tpl")}"
+}
+
 resource "aws_instance" "openshift_master" {
   count                  = "${var.instance_count_master}"
   instance_type          = "${var.instance_type_master}"
@@ -67,4 +71,20 @@ resource "aws_instance" "openshift_app_node" {
   tags {
     Name = "openshift-app-node-${count.index + 1}"
   }
+}
+
+# Ansible config server
+
+resource "aws_instance" "ansible_config_server" {
+    instance_type = "m3.medium"
+    ami = "${data.aws_ami.server_ami.id}"
+    subnet_id = "${var.public_subnet_ids[0]}"
+    vpc_security_group_ids = ["${var.openshift_ssh_sg}", "${var.public_web_sg}"]
+    key_name = "${var.instance_key_name}"
+
+    user_data = "${data.template_file.user_data.rendered}"
+
+    tags{
+        Name = "Ansible config server"
+    }
 }
