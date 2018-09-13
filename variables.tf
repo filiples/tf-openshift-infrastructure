@@ -29,3 +29,7 @@ variable "instance_type_infra_node" {}
 variable "instance_count_app_node" {}
 
 variable "instance_type_app_node" {}
+
+variable "master_root_block_device_size" {}
+
+variable "node_root_block_device_size" {}

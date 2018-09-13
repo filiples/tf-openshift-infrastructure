@@ -30,5 +30,7 @@ module "compute" {
   instance_type_infra_node = "${var.instance_type_infra_node}"
   instance_count_app_node = "${var.instance_count_app_node}"
   instance_type_app_node = "${var.instance_type_app_node}"
+  master_root_block_device_size = "${var.master_root_block_device_size}"
+  node_root_block_device_size = "${var.node_root_block_device_size}"
 }
 

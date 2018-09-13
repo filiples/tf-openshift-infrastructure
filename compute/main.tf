@@ -25,6 +25,11 @@ resource "aws_instance" "openshift_master" {
   subnet_id              = "${var.public_subnet_ids[count.index]}"
   vpc_security_group_ids = ["${var.openshift_ssh_sg}", "${var.openshift_master_sg}"]
 
+  root_block_device {
+      volume_size = "${var.master_root_block_device_size}"
+      volume_type = "gp2"
+  }
+
   tags {
     Name = "openshift-master-${count.index + 1}"
   }
@@ -37,6 +42,11 @@ resource "aws_instance" "openshift_infra_node" {
   subnet_id     = "${var.public_subnet_ids[count.index]}"
   vpc_security_group_ids = ["${var.openshift_ssh_sg}", "${var.openshift_infra_sg}"]
 
+  root_block_device {
+      volume_size = "${var.node_root_block_device_size}"
+      volume_type = "gp2"
+  }
+
   tags {
     Name = "openshift-infra-node-${count.index + 1}"
   }
@@ -48,6 +58,11 @@ resource "aws_instance" "openshift_app_node" {
   ami           = "${data.aws_ami.server_ami.id}"
   subnet_id     = "${var.public_subnet_ids[count.index]}"
   vpc_security_group_ids = ["${var.openshift_ssh_sg}", "${var.openshift_node_sg}"]
+
+  root_block_device {
+      volume_size = "${var.node_root_block_device_size}"
+      volume_type = "gp2"
+  }
 
   tags {
     Name = "openshift-app-node-${count.index + 1}"

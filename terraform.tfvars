@@ -28,3 +28,7 @@ instance_type_infra_node = "t2.micro"
 instance_count_app_node = 2
 
 instance_type_app_node = "t2.micro"
+
+master_root_block_device_size = 45
+
+node_root_block_device_size = 20
