@@ -38,7 +38,7 @@ resource "aws_route_table_association" "openshift_tf_public_assoc" {
 # Private subnet
 
 resource "aws_subnet" "openshift_tf_private_subnet" {
-  count                   = 2
+  count                   = 3
   vpc_id                  = "${aws_vpc.openshift_tf_vpc.id}"
   cidr_block              = "${var.private_cidrs[count.index]}"
   map_public_ip_on_launch = true
