@@ -20,7 +20,7 @@ resource "aws_route" "internet_access" {
 
 resource "aws_eip" "openshift_tf_eip" {
   count = "${aws_subnet.openshift_tf_public_subnet.count}"
-  vpc = true
+  vpc   = true
 
   tags {
     Name = "NAT gateway eip - ${count.index}"
@@ -30,7 +30,7 @@ resource "aws_eip" "openshift_tf_eip" {
 # NAT gateway
 
 resource "aws_nat_gateway" "openshift_tf_nat_gateway" {
-  count = "${aws_subnet.openshift_tf_public_subnet.count}"
+  count         = "${aws_subnet.openshift_tf_public_subnet.count}"
   subnet_id     = "${aws_subnet.openshift_tf_public_subnet.*.id[count.index]}"
   allocation_id = "${aws_eip.openshift_tf_eip.*.id[count.index]}"
 

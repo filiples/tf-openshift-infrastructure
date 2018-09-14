@@ -19,7 +19,7 @@ resource "aws_security_group" "openshift_ssh_sg" {
 # Public web security group
 
 resource "aws_security_group" "public_web_sg" {
-  name = "public_web_sg"
+  name   = "public_web_sg"
   vpc_id = "${aws_vpc.openshift_tf_vpc.id}"
 
   ingress {

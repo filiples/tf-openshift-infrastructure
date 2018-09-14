@@ -52,12 +52,12 @@ resource "aws_subnet" "openshift_tf_private_subnet" {
 # Private route table
 
 resource "aws_route_table" "openshift_tf_private_rt" {
-  count = "${aws_subnet.openshift_tf_private_subnet.count}"
+  count  = "${aws_subnet.openshift_tf_private_subnet.count}"
   vpc_id = "${aws_vpc.openshift_tf_vpc.id}"
 
   route {
-      cidr_block = "0.0.0.0/0"
-      nat_gateway_id = "${aws_nat_gateway.openshift_tf_nat_gateway.*.id[count.index]}"
+    cidr_block     = "0.0.0.0/0"
+    nat_gateway_id = "${aws_nat_gateway.openshift_tf_nat_gateway.*.id[count.index]}"
   }
 
   tags {

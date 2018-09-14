@@ -19,7 +19,7 @@ data "aws_ami" "server_ami" {
 }
 
 data "template_file" "user_data" {
-    template = "${file("${path.module}/install-ansible.tpl")}"
+  template = "${file("${path.module}/install-ansible.tpl")}"
 }
 
 resource "aws_instance" "openshift_master" {
@@ -30,8 +30,8 @@ resource "aws_instance" "openshift_master" {
   vpc_security_group_ids = ["${var.openshift_ssh_sg}", "${var.openshift_master_sg}"]
 
   root_block_device {
-      volume_size = "${var.master_root_block_device_size}"
-      volume_type = "gp2"
+    volume_size = "${var.master_root_block_device_size}"
+    volume_type = "gp2"
   }
 
   tags {
@@ -40,15 +40,15 @@ resource "aws_instance" "openshift_master" {
 }
 
 resource "aws_instance" "openshift_infra_node" {
-  count         = "${var.instance_count_infra_node}"
-  instance_type = "${var.instance_type_infra_node}"
-  ami           = "${data.aws_ami.server_ami.id}"
-  subnet_id     = "${var.public_subnet_ids[count.index]}"
+  count                  = "${var.instance_count_infra_node}"
+  instance_type          = "${var.instance_type_infra_node}"
+  ami                    = "${data.aws_ami.server_ami.id}"
+  subnet_id              = "${var.public_subnet_ids[count.index]}"
   vpc_security_group_ids = ["${var.openshift_ssh_sg}", "${var.openshift_infra_sg}"]
 
   root_block_device {
-      volume_size = "${var.node_root_block_device_size}"
-      volume_type = "gp2"
+    volume_size = "${var.node_root_block_device_size}"
+    volume_type = "gp2"
   }
 
   tags {
@@ -57,15 +57,15 @@ resource "aws_instance" "openshift_infra_node" {
 }
 
 resource "aws_instance" "openshift_app_node" {
-  count         = "${var.instance_count_app_node}"
-  instance_type = "${var.instance_type_app_node}"
-  ami           = "${data.aws_ami.server_ami.id}"
-  subnet_id     = "${var.public_subnet_ids[count.index]}"
+  count                  = "${var.instance_count_app_node}"
+  instance_type          = "${var.instance_type_app_node}"
+  ami                    = "${data.aws_ami.server_ami.id}"
+  subnet_id              = "${var.public_subnet_ids[count.index]}"
   vpc_security_group_ids = ["${var.openshift_ssh_sg}", "${var.openshift_node_sg}"]
 
   root_block_device {
-      volume_size = "${var.node_root_block_device_size}"
-      volume_type = "gp2"
+    volume_size = "${var.node_root_block_device_size}"
+    volume_type = "gp2"
   }
 
   tags {
@@ -76,15 +76,15 @@ resource "aws_instance" "openshift_app_node" {
 # Ansible config server
 
 resource "aws_instance" "ansible_config_server" {
-    instance_type = "m3.medium"
-    ami = "${data.aws_ami.server_ami.id}"
-    subnet_id = "${var.public_subnet_ids[0]}"
-    vpc_security_group_ids = ["${var.openshift_ssh_sg}", "${var.public_web_sg}"]
-    key_name = "${var.instance_key_name}"
+  instance_type          = "m3.medium"
+  ami                    = "${data.aws_ami.server_ami.id}"
+  subnet_id              = "${var.public_subnet_ids[0]}"
+  vpc_security_group_ids = ["${var.openshift_ssh_sg}", "${var.public_web_sg}"]
+  key_name               = "${var.instance_key_name}"
 
-    user_data = "${data.template_file.user_data.rendered}"
+  user_data = "${data.template_file.user_data.rendered}"
 
-    tags{
-        Name = "Ansible config server"
-    }
+  tags {
+    Name = "Ansible config server"
+  }
 }
